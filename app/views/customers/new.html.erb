@@ -1,0 +1,24 @@
+<h1>Create a New Customer</h1>
+
+<%= form_with model: @customer, local: true do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :mobile_no %>
+    <%= form.text_field :mobile_no %>
+  </div>
+
+  <div>
+    <%= form.label :address %>
+    <%= form.text_area :address %>
+  </div>
+
+  <div>
+    <%= form.submit 'Create Customer', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<%= link_to 'Back to Customers List', customers_path %>

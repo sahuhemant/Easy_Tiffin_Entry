@@ -1,0 +1,44 @@
+<h1>Login Success!</h1>
+<p>You have successfully logged in.</p>
+<%= link_to 'Create Customer', new_customer_path, class: 'btn btn-primary' %>
+
+<!-- Add the search form -->
+<%= form_with url: login_success_path, method: :get, local: true do |form| %>
+  <div>
+    <%= form.label :search, 'Search Customer by Name' %>
+    <%= form.text_field :search, value: params[:search], placeholder: "Enter customer name" %>
+    <%= form.submit 'Search', class: 'btn btn-secondary' %>
+  </div>
+<% end %>
+
+
+<h2>Customer List</h2>
+
+<% if @customers.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Mobile No</th>
+        <th>Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customers.each do |customer| %>
+        <tr>
+          <td><%= customer.name %></td>
+          <td><%= customer.mobile_no %></td>
+          <td><%= customer.address %></td>
+          <td>            
+           <%= link_to 'Tiffin Entry', customer_tiffins_path(customer), class: 'btn btn-info' %>
+
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No customers found.</p>
+<% end %>
+
+<%= link_to 'Back to Home', root_path %>

@@ -1,0 +1,32 @@
+<% if @customer %>
+  <h1>Tiffins for <%= @customer.name %></h1>
+
+  <% if @tiffins.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Start Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tiffins.each do |tiffin| %>
+          <tr>
+            <td><%= tiffin.start_date %></td>
+            <td><%= tiffin.status %></td> <!-- Use .humanize for enum display -->
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No tiffin records available for this customer.</p>
+  <% end %>
+
+  <div>
+    <%= link_to 'Create New Tiffin', new_customer_tiffin_path(@customer), class: 'btn btn-primary' %>
+  </div>
+<% else %>
+  <p>Customer not found.</p>
+<% end %>
+
+<%= link_to 'Back to Customers List', customers_path, class: 'btn btn-secondary' %>
