@@ -1,4 +1,7 @@
 <h1>Login</h1>
+<% if flash[:notice] %>
+  <p class="alert alert-success"><%= flash[:notice] %></p>
+<% end %>
 
 <%= form_with url: login_path, method: :post, local: true do |form| %>
   <div>

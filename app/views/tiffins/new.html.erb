@@ -3,15 +3,23 @@
 <%= form_with model: [@customer, @tiffin], local: true do |form| %>
   <div>
     <%= form.label :start_date %>
-    <%= form.date_field :start_date %>
+    <%= form.date_field :start_date, value: Date.today  %>
   </div>
 
   <div>
-    <%= form.label :status %>
-    <%= form.select :status, Tiffin.statuses.keys.map { |key| [key.humanize, key] }, prompt: 'Select Status' %>
+    <%= form.label :day_status %>
+    <%= form.select :day_status, ['yes', 'no']%>
   </div>
+
+  <div>
+    <%= form.label :night_status %>
+    <%= form.select :night_status, ['right', 'wrong']%>
+  </div>  
 
   <div>
     <%= form.submit 'Create Tiffin' %>
+  </div>
+    <div>
+    <%= link_to 'Back to Tiffin index',  customer_tiffins_path, class: 'btn btn-secondary' %>
   </div>
 <% end %>

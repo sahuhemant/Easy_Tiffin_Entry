@@ -3,7 +3,9 @@ class CreateTiffins < ActiveRecord::Migration[7.0]
     create_table :tiffins do |t|
       t.date :start_date
       t.date :date
-      t.integer :status
+      t.integer :day_status
+      t.integer :night_status
+      t.integer :status_count
 
       t.timestamps
     end

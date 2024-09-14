@@ -1,8 +1,9 @@
 <h1>Login Success!</h1>
-<p>You have successfully logged in.</p>
+<p><%= session[:user_name] %> has successfully logged in.</p>
+
 <%= link_to 'Create Customer', new_customer_path, class: 'btn btn-primary' %>
 
-<!-- Add the search form -->
+<!-- Search Section -->
 <%= form_with url: login_success_path, method: :get, local: true do |form| %>
   <div>
     <%= form.label :search, 'Search Customer by Name' %>
@@ -10,7 +11,6 @@
     <%= form.submit 'Search', class: 'btn btn-secondary' %>
   </div>
 <% end %>
-
 
 <h2>Customer List</h2>
 
@@ -31,7 +31,6 @@
           <td><%= customer.address %></td>
           <td>            
            <%= link_to 'Tiffin Entry', customer_tiffins_path(customer), class: 'btn btn-info' %>
-
           </td>
         </tr>
       <% end %>

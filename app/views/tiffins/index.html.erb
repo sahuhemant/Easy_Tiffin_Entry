@@ -1,3 +1,4 @@
+<%= @total_tiffin %>
 <% if @customer %>
   <h1>Tiffins for <%= @customer.name %></h1>
 
@@ -6,27 +7,62 @@
       <thead>
         <tr>
           <th>Start Date</th>
-          <th>Status</th>
+          <th>Day Status</th>
+          <th>Night Status</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <% @tiffins.each do |tiffin| %>
-          <tr>
-            <td><%= tiffin.start_date %></td>
-            <td><%= tiffin.status %></td> <!-- Use .humanize for enum display -->
+          <tr id="tiffin-row-<%= tiffin.id %>">
+            <% if @edit_tiffin_id.to_i == tiffin.id %>
+              <!-- Inline Edit Form -->
+              <%= form_with model: [@customer, tiffin], url: customer_tiffin_path(@customer, tiffin), method: :patch, local: true do |form| %>
+                <td><%= form.date_field :start_date, value: tiffin.start_date %></td>
+                <td><%= form.select :day_status, ['yes', 'no'], selected: tiffin.day_status %></td>
+                <td><%= form.select :night_status, ['right', 'wrong'], selected: tiffin.night_status %></td>
+                <td>
+                  <%= form.submit 'Save', class: 'btn btn-primary' %>
+                  <%= link_to 'Cancel', customer_tiffins_path(@customer), class: 'btn btn-secondary' %>
+                </td>
+              <% end %>
+            <% else %>
+              <!-- Display Data -->
+              <td><%= tiffin.start_date %></td>
+              <td><%= tiffin.day_status %></td>
+              <td><%= tiffin.night_status %></td>
+              <td>
+                <%= link_to 'Edit', customer_tiffins_path(@customer, edit_id: tiffin.id), class: 'btn btn-secondary' %>
+              </td>
+            <% end %>
           </tr>
         <% end %>
+
+        <!-- Form to Create a New Tiffin -->
+        <tr>
+          <%= form_with model: [@customer, Tiffin.new], url: customer_tiffins_path(@customer), method: :post, local: true do |form| %>
+            <td><%= form.date_field :start_date, value: Date.today %></td>
+            <td><%= form.select :day_status, ['yes', 'no'] %></td>
+            <td><%= form.select :night_status, ['right', 'wrong'] %></td>
+            <td>
+              <%= form.submit 'Create', class: 'btn btn-primary' %>
+            </td>
+          <% end %>
+        </tr>
       </tbody>
     </table>
   <% else %>
     <p>No tiffin records available for this customer.</p>
+    <!-- Button to create the first tiffin -->
+    <div>
+      <%= link_to 'Create First Tiffin', new_customer_tiffin_path(@customer), class: 'btn btn-primary' %>
+    </div>
   <% end %>
 
   <div>
-    <%= link_to 'Create New Tiffin', new_customer_tiffin_path(@customer), class: 'btn btn-primary' %>
+    <%= link_to 'Back to Customers List', login_success_path, class: 'btn btn-secondary' %>
   </div>
 <% else %>
   <p>Customer not found.</p>
 <% end %>
-
-<%= link_to 'Back to Customers List', customers_path, class: 'btn btn-secondary' %>
+  

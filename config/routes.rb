@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root 'users#index'  # Root page for the login/register buttons
 
   # Routes for user registration and login
+   get 'register', to: 'users#new'
    post '/register', to: 'users#create'
    get '/login_success', to: 'users#login_success'
    # Routes for login
@@ -13,9 +14,8 @@ Rails.application.routes.draw do
    resources :customers, only: [:new, :create, :index]
     get '/tiffin', to: 'tiffins#show'
     resources :customers do
-      resources :tiffins, only: [:index, :new, :create]
+      resources :tiffins, only: [:index, :new, :create, :edit, :update]
     end
-    
     
 
 end
