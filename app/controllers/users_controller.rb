@@ -7,22 +7,18 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:notice] = "#{@user.name} registered successfully! Now you can login."
-      redirect_to login_path
+      render json: { name: @user.name, user_name: @user.user_name }, status: :created
     else
-      render :new
+      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def login
     user = User.find_by(user_name: params[:user_name])
-    if user
-      session[:user_name] = user.name  # Store the user's name in the session
-      flash[:notice] = 'Login successful!'
-      redirect_to login_success_path
+    if user&.authenticate(params[:password])
+      render json: { message: 'Login successful!', user_name: user.name }, status: :ok
     else
-      flash.now[:alert] = 'Invalid username or password'
-      render :login
+      render json: { error: 'Invalid username or password' }, status: :unauthorized
     end
   end
 
