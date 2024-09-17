@@ -1,21 +1,16 @@
 class CustomersController < ApplicationController
-  
-  def new
-    @customer = Customer.new
+  def index
+    @customers = Customer.all
+    render json: @customers
   end
 
   def create
     @customer = Customer.new(customer_params)
     if @customer.save
-      flash[:notice] = 'Customer created successfully!'
-      redirect_to login_success_path
+      render json: @customer, status: :created
     else
-      render :new
+      render json: { errors: @customer.errors.full_messages }, status: :unprocessable_entity
     end
-  end
-
-  def index
-    @customers = Customer.all
   end
 
   private
