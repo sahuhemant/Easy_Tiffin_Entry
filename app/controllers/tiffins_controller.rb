@@ -1,43 +1,23 @@
 class TiffinsController < ApplicationController
-  before_action :set_customer, only: [:new, :create, :index, :edit, :update]
+  before_action :set_customer
 
-  def new
-    @tiffin = @customer.tiffins.new
+  def index
+    @tiffins = @customer.tiffins
+    @total_tiffin_count = @customer.tiffins.sum(:status_count) # Sum up the status_count
+
+    render json: {
+      tiffins: @tiffins,
+      total_count: @total_tiffin_count
+    }
   end
 
   def create
     @tiffin = @customer.tiffins.new(tiffin_params)
-
+    
     if @tiffin.save
-      redirect_to customer_tiffins_path(@customer), notice: 'Tiffin was successfully created.'
+      render json: @tiffin, status: :created
     else
-      render :new
-    end
-  end
-
-  def index
-    @customer = Customer.find(params[:customer_id])
-    @tiffins = @customer.tiffins
-    @total_tiffin = @customer.tiffins.sum(:status_count)
-
-    @edit_tiffin_id = params[:edit_id] # Set this to the passed parameter to identify which row to edit
-  end
-
-  def edit
-    @tiffins = @customer.tiffins
-    @edit_tiffin_id = params[:id]  # Use the tiffin's ID to track the row being edited
-    render :index  # Render the index view to show the inline edit form
-  end
-
-  def update
-    @tiffin = @customer.tiffins.find(params[:id])
-  
-    if @tiffin.update(tiffin_params)
-      redirect_to customer_tiffins_path(@customer), notice: 'Tiffin was successfully updated.'
-    else
-      @tiffins = @customer.tiffins
-      @edit_tiffin_id = @tiffin.id  # Keep the edit mode active if the update fails
-      render :index
+      render json: @tiffin.errors, status: :unprocessable_entity
     end
   end
 
