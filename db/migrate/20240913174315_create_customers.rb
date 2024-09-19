@@ -7,5 +7,7 @@ class CreateCustomers < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
+    add_column :customers, :user_id, :integer
+    add_foreign_key :customers, :users
   end
 end
