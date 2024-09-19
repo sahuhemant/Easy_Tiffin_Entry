@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  require 'securerandom'
+  skip_before_action :authenticate_user, only: :login
+
   def new
     @user = User.new
   end
@@ -7,7 +8,6 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      session[:user_id] = @user.id # Set user session
       render json: { name: @user.name, user_name: @user.user_name }, status: :created
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
@@ -17,10 +17,8 @@ class UsersController < ApplicationController
   def login
     user = User.find_by(user_name: params[:user_name])
     if user&.authenticate(params[:password])
-      # Generate a token (you might want to use a more robust strategy for token generation)
-      token = SecureRandom.hex(16)
-      user.update(authentication_token: token) # Store the token in the database
-
+      payload = { user_id: user.id }
+      token = encode(payload)
       render json: { message: 'Login successful!', token: token }, status: :ok
     else
       render json: { error: 'Invalid username or password' }, status: :unauthorized
