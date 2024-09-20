@@ -11,11 +11,13 @@ Rails.application.routes.draw do
   # Routes for user login success
   get '/login_success', to: 'users#login_success'
 
-  # Resources
-  resources :customers, only: [:index, :create] do
-    resources :tiffins, only: [:index, :create, :update, :destroy]
-  end
-
-  # Additional routes for users if needed
-  resources :users, only: [:index, :show, :create, :update, :destroy]
+  # Nested resources for users and customers
+    resources :users, only: [:index, :show, :create, :update, :destroy] do
+      resources :customers, only: [:index, :create] 
+    end
+    
+    resources :customers do
+      resources :tiffins, only: [:index, :create, :update, :destroy]
+    end
 end
+
