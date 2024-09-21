@@ -1,13 +1,18 @@
 class CustomersController < ApplicationController
-  before_action :set_user
 
   def index
-    @customers = @user.customers
-    render json: @customers
+    @customers = @current_user.customers
+    
+    if @customers.empty?
+      render json: { message: 'No customers found for this user.' }, status: :ok
+    else
+      render json: @customers, status: :ok
+    end
   end
+  
 
   def create
-    @customer = @user.customers.new(customer_params)
+    @customer = @current_user.customers.new(customer_params)
     if @customer.save
       render json: @customer, status: :created
     else
@@ -16,12 +21,6 @@ class CustomersController < ApplicationController
   end
 
   private
-
-  def set_user
-    @user = User.find(params[:user_id])
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: 'User not found' }, status: :not_found
-  end
 
   def customer_params
     params.require(:customer).permit(:name, :mobile_no, :address)
