@@ -14,15 +14,13 @@ class StripeService
         email: customer.email,
         phone: customer.number
         })
-      # customer.update(stripe_customer_id: stripe_customer.id)
-      # customer.update_column(:stripe_customer_id, stripe_customer.id)
       customer.update_attribute(:stripe_customer_id, stripe_customer.id)
     end
     stripe_customer
   end
 
   def create_card_Token(params)
-    # token = Stripe::Token.retrieve('tok_visa')
+    # token = Stripe::Token.retrieve('tok_mastercard')
 #     Visa card: 'tok_visa'
 # Mastercard: 'tok_mastercard'
 # Charge declined (insufficient funds): 'tok_chargeDeclined_insufficientFunds'
@@ -39,7 +37,7 @@ class StripeService
   end
 
   def create_stripe_customer_card(params, stripe_customer)
-    token = create_card_Token(params)
+    # token = create_card_Token(params)
     Stripe::Customer.create_source(
       stripe_customer.id,
       { source: token.id}

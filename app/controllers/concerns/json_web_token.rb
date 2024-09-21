@@ -6,13 +6,17 @@ module JsonWebToken
 
   SECRET_KEY = Rails.application.secret_key_base
 
-  def encode(payload)
+  def encode(payload, exp = 24.hours.from_now)
+    payload[:exp] = exp.to_i
     JWT.encode(payload, SECRET_KEY)
   end
 
   def decode(token)
-    JWT.decode(token, SECRET_KEY).first
-  rescue JWT::DecodeError, JWT::ExpiredSignature
+    decoded = JWT.decode(token, SECRET_KEY).first
+    HashWithIndifferentAccess.new(decoded)
+  rescue JWT::ExpiredSignature
+    raise 'Token has expired'
+  rescue JWT::DecodeError
     nil
   end
 end
