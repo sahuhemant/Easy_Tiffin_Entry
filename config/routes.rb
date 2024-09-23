@@ -7,10 +7,9 @@ Rails.application.routes.draw do
   #   get 'dashboard', to: 'admin_dashboard#index'
   # end
 
-  # Resister
+  # Resister User controller routes
   post 'register', to: 'users#create'
-
-  # Login
+  post '/verify_otp', to: 'users#verify_otp'
   post 'login', to: 'users#login'
 
   # Customer
