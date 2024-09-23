@@ -19,29 +19,13 @@ class StripeService
     stripe_customer
   end
 
-  def create_card_Token(params)
-    # token = Stripe::Token.retrieve('tok_mastercard')
-#     Visa card: 'tok_visa'
-# Mastercard: 'tok_mastercard'
-# Charge declined (insufficient funds): 'tok_chargeDeclined_insufficientFunds'
-# Charge declined (card stolen): 'tok_chargeDeclined_stolenCard'
-
-    Stripe::Token.create({
-      card: {
-        number: params[:card_number].to_s,
-        exp_month: params[:exp_month],
-        exp_year: params[:exp_year],
-        cvc: params[:cvc]
-      }
-    })
-  end
-
-  def create_stripe_customer_card(params, stripe_customer)
-    # token = create_card_Token(params)
-    Stripe::Customer.create_source(
+  def create_stripe_customer_card(stripe_customer)
+    token = 'tok_visa' 
+    card = Stripe::Customer.create_source(
       stripe_customer.id,
-      { source: token.id}
+      { source: token }
     )
+    card 
   end
 
   def create_stripe_charges(amount_to_be_paid, stripe_customer_id, card_id, xyz)
