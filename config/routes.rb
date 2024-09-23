@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
+  # namespace :admin do
+  #   get 'dashboard', to: 'admin_dashboard#index'
+  # end
+
   # Resister
   post 'register', to: 'users#create'
 
@@ -16,6 +24,12 @@ Rails.application.routes.draw do
   # Stripe
   namespace :payment do
     post 'stripe/charge', to: 'stripe#charge'
-  end  
+  end
+
+  # OTP
+  post 'send_otp', to: 'users#send_otp'
+  devise_for :users
+  post 'generate_otp', to: 'users#generate_otp'
+  post 'verify_otp', to: 'users#verify_otp'
 end
 
