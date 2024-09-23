@@ -7,7 +7,7 @@ ruby "3.2.2"
 gem "rails", "~> 7.0.8", ">= 7.0.8.4"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem "sprockets-rails"
+# gem "sprockets-rails"
 
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", "~> 1.4"
@@ -75,3 +75,12 @@ end
 gem 'rack-cors'
 gem 'jwt'
 gem 'stripe'
+
+gem "sprockets-rails"
+gem 'activeadmin'
+gem 'devise'
+gem 'devise-jwt'
+gem 'cancancan'
+gem 'sassc-rails'
+gem 'bootstrap'
+gem 'devise-two-factor'
