@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   # Customer
   resources :customers, only: [:index, :create]
+  post 'customer_payment_detail', to: 'customers#customer_payment_detail'
   
   # Customer Tiffin
   resources :customers do

@@ -29,6 +29,17 @@ class CustomersController < ApplicationController
     end
   end
 
+  def customer_payment_detail
+    status = params[:payment_status]
+
+    if %w[yes no].include?(status)
+      customers =  @current_user.customers.where(payment_status: Customer.payment_statuses[status])
+      render json: customers, status: :ok
+    else
+      render json: { error: 'Invalid payment status' }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def customer_params
