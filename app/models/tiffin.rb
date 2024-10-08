@@ -4,6 +4,10 @@ class Tiffin < ApplicationRecord
   enum day_status: [:yes, :no]
   enum night_status: [:right, :wrong]
 
+  def formatted_start_date
+    start_date.strftime("%e %B %Y") if start_date.present?
+  end
+
   private
 
     def calculate_status_count
@@ -15,4 +19,5 @@ class Tiffin < ApplicationRecord
                             0
                           end
     end
+
 end

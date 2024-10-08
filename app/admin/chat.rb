@@ -13,14 +13,15 @@ ActiveAdmin.register_page "Chat" do
       end
     end
 
-    panel "Reply to Messages" do
-      div id: "chat-messages" do
+    panel "Chat with Users" do
+      div id: "chat-container", class: "chat-container" do
         # This is where chat messages will be displayed
+        div id: "chat-messages", class: "chat-messages"
       end
       input type: "hidden", id: "user-id", value: ""
-      input type: "text", id: "chat-input", placeholder: "Type your reply..."
-      button id: "send-chat" do
-        "Send Reply"
+      input type: "text", id: "chat-input", placeholder: "Type your reply...", class: "chat-input"
+      button id: "send-chat", class: "send-chat" do
+        "Send"
       end
     end
   end
@@ -35,7 +36,6 @@ ActiveAdmin.register_page "Chat" do
     end
   end  
 
-  # Add an action to fetch chat history
   page_action :history, method: :get do
     @messages = ChatMessage.where(user_id: params[:user_id])
     render json: @messages

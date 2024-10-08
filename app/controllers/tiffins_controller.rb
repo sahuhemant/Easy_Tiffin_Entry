@@ -7,7 +7,7 @@ class TiffinsController < ApplicationController
     total_tiffin_count = tiffins.sum(:status_count)
   
     render json: {
-      tiffins: tiffins,
+      tiffins: tiffins.map { |tiffin| tiffin.as_json.merge(start_date: tiffin.formatted_start_date) },
       total_count: total_tiffin_count
     }, status: :ok
   end
