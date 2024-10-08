@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
+  get '/admin/chat/history', to: 'admin/chat#history'
 
   # namespace :admin do
   #   get 'dashboard', to: 'admin_dashboard#index'
@@ -31,5 +32,15 @@ Rails.application.routes.draw do
   devise_for :users
   post 'generate_otp', to: 'users#generate_otp'
   post 'verify_otp', to: 'users#verify_otp'
+
+  # chat_message
+  resources :chat_messages, only: [:index, :create]
+
+  resources :chat_messages do
+    collection do
+      get :history
+    end
+  end
+  
 end
 

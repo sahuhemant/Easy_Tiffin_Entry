@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :customers
+  has_many :chat_messages
   has_secure_password
 
   validates :user_name, presence: true, uniqueness: true

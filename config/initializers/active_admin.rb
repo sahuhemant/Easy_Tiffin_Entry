@@ -142,7 +142,8 @@ ActiveAdmin.setup do |config|
   # This allows your users to comment on any resource registered with Active Admin.
   #
   # You can completely disable comments:
-  # config.comments = false
+  config.comments = false
+  config.register_javascript 'active_admin.js'
   #
   # You can change the name under which comments are registered:
   # config.comments_registration_name = 'AdminComment'
