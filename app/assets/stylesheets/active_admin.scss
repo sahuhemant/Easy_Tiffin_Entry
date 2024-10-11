@@ -10,8 +10,101 @@
 // Active Admin's got SASS!
 @import "active_admin/mixins";
 @import "active_admin/base";
+@import "active_admin_flat_skin";
+@import "font-awesome";
 
 // Overriding any non-variable Sass must be done after the fact.
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+/* Add this to your ActiveAdmin custom CSS file or inline style */
+
+/* Container for the entire chat interface */
+.chat-container {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  height: 400px;
+  overflow-y: auto; /* Enable vertical scrolling */
+  background-color: #f9f9f9;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Keep the latest messages at the bottom */
+}
+
+/* Message container to hold chat messages */
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100%;
+}
+
+/* Individual message bubble */
+.chat-message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 15px;
+  max-width: 60%;
+  word-wrap: break-word; /* Ensure long words wrap inside the bubble */
+  font-size: 14px;
+  line-height: 1.4;
+  display: inline-block;
+}
+
+/* Style for admin (sender) messages */
+.chat-message.admin {
+  background-color: #e6e6e6;
+  align-self: flex-end;
+  text-align: right;
+  border-top-right-radius: 0;
+}
+
+/* Style for user (receiver) messages */
+.chat-message.user {
+  background-color: #d1ecf1;
+  align-self: flex-start;
+  text-align: left;
+  border-top-left-radius: 0;
+}
+
+/* Chat input area */
+.chat-input {
+  width: calc(100% - 90px); /* Dynamic width to fit beside the button */
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Send button */
+.send-chat {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0; /* Prevent shrinking when the input grows */
+}
+
+/* Change background color on hover */
+.send-chat:hover {
+  background-color: #0056b3;
+}
+
+/* Optional: For better mobile responsiveness */
+@media (max-width: 600px) {
+  .chat-message {
+    max-width: 80%; /* Increase width of bubbles on smaller screens */
+  }
+
+  .chat-input {
+    width: calc(100% - 80px); /* Adjust width for mobile */
+  }
+}
+

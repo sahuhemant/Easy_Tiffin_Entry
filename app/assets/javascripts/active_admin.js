@@ -1,4 +1,5 @@
 //= require active_admin/base
+//= require active_admin_flat_skin
 
 document.addEventListener("DOMContentLoaded", () => {
   const sendButton = document.getElementById("send-chat");
@@ -6,7 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatMessagesContainer = document.getElementById("chat-messages");
   let currentUserId = null;
 
-  // Function to load chat history for the selected user
+  // Added: Function to auto-scroll to the bottom of the chat when new messages arrive
+  function scrollToBottom() {
+    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+  }
+
+  // Modified: Load and display chat history with improved formatting
   async function loadChatHistory(userId) {
     try {
       const response = await fetch(`/admin/chat/history?user_id=${userId}`, {
@@ -20,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const messages = await response.json();
         chatMessagesContainer.innerHTML = ""; // Clear previous messages
         messages.forEach(message => displayMessage(message)); // Display existing messages
+        scrollToBottom(); // Added: Scroll to the latest message
       } else {
         console.error("Failed to load chat history:", await response.json());
       }
@@ -62,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const chatMessage = await response.json();
           displayMessage(chatMessage); // Display the sent message
           chatInput.value = ''; // Clear input after sending
+          scrollToBottom(); // Added: Scroll to the bottom when a message is sent
         } else {
           console.error("Failed to send message:", await response.json());
         }
@@ -70,9 +78,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    // Modified: Improved message display formatting to make it look like a chat bubble
     function displayMessage(chatMessage) {
       const messageDiv = document.createElement("div");
-      messageDiv.innerText = `${chatMessage.sender}: ${chatMessage.message}`; // Format message display
+
+      // Style messages differently based on the sender (admin or user)
+      messageDiv.classList.add("chat-message");
+      if (chatMessage.sender === "admin") {
+        messageDiv.classList.add("admin-message"); // Style for admin messages
+      } else {
+        messageDiv.classList.add("user-message"); // Style for user messages
+      }
+
+      // Improved: Show the sender and message in a more readable format
+      messageDiv.innerHTML = `<strong>${chatMessage.sender}:</strong> ${chatMessage.message}`;
+      
       chatMessagesContainer.appendChild(messageDiv);
     }
   }

@@ -11,4 +11,8 @@ class User < ApplicationRecord
     self.otp = rand(1000..9999).to_s
     self.otp_generated_at = Time.current
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "email", "id", "name", "number", "otp", "otp_generated_at", "otp_verified", "password_digest", "stripe_customer_id", "updated_at", "user_name"]
+  end
 end
