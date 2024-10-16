@@ -86,3 +86,6 @@ gem 'bootstrap'
 gem 'devise-two-factor'
 gem 'active_admin_flat_skin'
 gem 'font-awesome-rails'
+gem 'rubocop', require: false
+gem 'active_model_serializers'
+
