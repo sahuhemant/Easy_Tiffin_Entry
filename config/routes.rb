@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   post 'login', to: 'users#login'
 
   # Customer
-  resources :customers, only: [:index, :create]
+  resources :customers, only: [:index, :create, :destroy]
   post 'customer_payment_detail', to: 'customers#customer_payment_detail'
   
   # Customer Tiffin
